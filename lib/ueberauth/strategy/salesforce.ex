@@ -51,6 +51,10 @@ defmodule Ueberauth.Strategy.Salesforce do
     end
   end
 
+  def handle_callback!(%Plug.Conn{params: %{"error" => error}} = conn) do
+    set_errors!(conn, [error(error, "Redirect error")])
+  end
+
   @doc false
   def handle_callback!(conn) do
     set_errors!(conn, [error("missing_code", "No code received")])
